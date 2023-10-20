@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "hn.uth.myapplication.fileprovider",
+                        "hn.uth.pm1e17673.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, peticion_toma_fotografia);
