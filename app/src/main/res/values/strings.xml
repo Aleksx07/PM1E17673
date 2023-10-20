@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PM1E17673</string>
-    <string-array name="Spinner">
-        <item>Honduras (504)</item>
-        <item>Belice (501)</item>
-        <item>Guatemala (502)</item>
-        <item>El Salvador (503)</item>
-        <item>Nicaragua (505)</item>
-        <item>Costa Rica (506)</item>
-        <item>Panama (507)</item>
-    </string-array>
 </resources>
