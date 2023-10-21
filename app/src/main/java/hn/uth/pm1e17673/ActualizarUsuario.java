@@ -16,6 +16,7 @@ import hn.uth.pm1e17673.transacciones.Transacciones;
 
 public class ActualizarUsuario extends AppCompatActivity {
     SQLiteConexion conexion;
+    //Hola
     EditText nombre, telefono, notas;
     private String id;
     Button regresar;
