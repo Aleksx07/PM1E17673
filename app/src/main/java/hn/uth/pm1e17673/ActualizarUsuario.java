@@ -18,7 +18,7 @@ public class ActualizarUsuario extends AppCompatActivity {
     SQLiteConexion conexion;
     EditText nombre, telefono, notas;
     private String id;
-
+    Button regresar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,16 @@ public class ActualizarUsuario extends AppCompatActivity {
         nombre.setText(name);
         telefono.setText(fono);
         notas.setText(notes);
+        regresar = (Button) findViewById(R.id.btn_AtrasA);
+        regresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityListView.class);
+                startActivity(intent);
+            }
+
+
+        });
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
