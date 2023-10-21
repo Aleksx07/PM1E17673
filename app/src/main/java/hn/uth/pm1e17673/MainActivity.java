@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnsalvar= (Button) findViewById(R.id.btnsalvar);
 
+
         spninner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, new String[]{"Honduras (504)", "Costa Rica (506)", "Guatemala (502)", "El Salvador (503)"});
@@ -84,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnver =(Button) findViewById(R.id.btnvercontactos);
+        btnver = (Button) findViewById(R.id.btnvercontactos);
         btnver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent intent = new Intent(getApplicationContext(), ActivityListView.class);
-               // startActivity(intent);
+               Intent intent = new Intent(getApplicationContext(), ActivityListView.class);
+               startActivity(intent);
             }
         });
         btnsalvar.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     private void validarDatos() {
         if (nombre.getText().toString().equals("")){
@@ -116,37 +118,51 @@ public class MainActivity extends AppCompatActivity {
     }
     private void salvarContacto(Bitmap bitmap) {
         try {
-            conexion = new SQLiteConexion(this, Transacciones.NameDatabase, null, 1);
-            db = conexion.getWritableDatabase();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] ArrayImagen  = stream.toByteArray();
+            // Abre la conexión a la base de datos
+            SQLiteConexion conexion = new SQLiteConexion(this, Transacciones.NameDatabase, null, 1);
+            SQLiteDatabase db = conexion.getWritableDatabase();
 
-            ContentValues valores = new ContentValues();
+            if (bitmap != null) {
+                // Convierte la imagen a un array de bytes
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] ArrayImagen = stream.toByteArray();
 
-            String Pais = spninner.getSelectedItem().toString();
-            String PaisText = Pais.substring(0, Pais.length() - 6);
-            String PaisNumber = Pais.substring(Pais.length() - 4, Pais.length() - 1);
+                // Obtiene los valores de los campos
+                String Pais = spninner.getSelectedItem().toString();
+                String PaisText = Pais.substring(0, Pais.length() - 6);
+                String PaisNumber = Pais.substring(Pais.length() - 4, Pais.length() - 1);
 
-            valores.put(Transacciones.pais, PaisText);
-            valores.put(Transacciones.nombre, nombre.getText().toString());
-            valores.put(Transacciones.telefono, PaisNumber + telefono.getText().toString());
-            valores.put(Transacciones.nota, nota.getText().toString());
-            valores.put(String.valueOf(Transacciones.imagen),ArrayImagen);
+                // Crea un objeto ContentValues y agrega los valores
+                ContentValues valores = new ContentValues();
+                valores.put(Transacciones.pais, PaisText);
+                valores.put(Transacciones.nombre, nombre.getText().toString());
+                valores.put(Transacciones.telefono, PaisNumber + telefono.getText().toString());
+                valores.put(Transacciones.nota, nota.getText().toString());
+                valores.put(Transacciones.imagen, ArrayImagen);
 
+                // Inserta los valores en la base de datos
+                long resultado = db.insert(Transacciones.tablacontactos, null, valores);
 
+                // Cierra la base de datos
+                db.close();
 
-            Long resultado = db.insert(Transacciones.tablacontactos, Transacciones.id, valores);
-
-            Toast.makeText(getApplicationContext(), "Registro ingreso con exito, Codigo " + resultado.toString()
-                    ,Toast.LENGTH_LONG).show();
-
-            db.close();
+                if (resultado != -1) {
+                    // Éxito al insertar el registro
+                    Toast.makeText(getApplicationContext(), "Registro ingreso con éxito, Código " + resultado, Toast.LENGTH_LONG).show();
+                    ClearScreen();
+                } else {
+                    // Si el resultado es -1, hubo un error al insertar el registro
+                    Toast.makeText(getApplicationContext(), "Error al guardar el contacto", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                // Si la imagen es nula, muestra un mensaje de error
+                Toast.makeText(getApplicationContext(), "La imagen es nula. Asegúrate de tomar una foto antes de guardar el contacto.", Toast.LENGTH_LONG).show();
+            }
         } catch (Exception ex) {
-            Toast.makeText(getApplicationContext(),"Se produjo un error",Toast.LENGTH_LONG).show();
+            // Captura y muestra cualquier excepción que se produzca
+            Toast.makeText(getApplicationContext(), "Error al guardar el contacto: " + ex.getMessage(), Toast.LENGTH_LONG).show();
         }
-
-        ClearScreen();
     }
     private void ClearScreen() {
         spninner.setSelection(0);
@@ -240,18 +256,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == peticion_toma_fotografia && resultCode == RESULT_OK){
-
-            /*Bundle extras = data.getExtras();
-            Bitmap image = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(image);*/
-
-
+        if (requestCode == peticion_toma_fotografia && resultCode == RESULT_OK) {
             try {
                 File foto = new File(currentPhotoPath);
-                imageView.setImageURI(Uri.fromFile(foto));
-            }
-            catch (Exception ex){
+                Bitmap image = BitmapFactory.decodeFile(foto.getAbsolutePath());
+                imageView.setImageBitmap(image);
+                imagen = image;  // Asegúrate de asignar la imagen a la variable 'imagen'
+            } catch (Exception ex) {
                 ex.toString();
             }
         }
