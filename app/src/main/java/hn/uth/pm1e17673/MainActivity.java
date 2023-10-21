@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         btnver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(getApplicationContext(), ActivityListView.class);
-               startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), ActivityListView.class);
+                startActivity(intent);
             }
         });
         btnsalvar.setOnClickListener(new View.OnClickListener() {

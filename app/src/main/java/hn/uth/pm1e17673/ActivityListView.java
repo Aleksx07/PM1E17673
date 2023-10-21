@@ -86,7 +86,7 @@ public class ActivityListView extends AppCompatActivity {
         ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, ArrayContactos);
         ListaContactos.setAdapter(adp);
 
-        buscar = (EditText) findViewById(R.id.txtbuscar);
+        //buscar = (EditText) findViewById(R.id.txtbuscar);
         buscar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -129,7 +129,7 @@ public class ActivityListView extends AppCompatActivity {
             }
         });
 
-/*
+
         //BOTON ELIMINAR
         btneliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,22 +195,22 @@ public class ActivityListView extends AppCompatActivity {
 
 
         //BOTON DE MOSTRAR Imagen
-/*
+
         btnverImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    Intent intent = new Intent(getApplicationContext(), ActivityMostrarFoto.class);
+                    Intent intent = new Intent(getApplicationContext(), MostrarFoto.class);
                     startActivity(intent);
                     intent.putExtra("codigo", Dato + "");
                     startActivity(intent);
                 } catch (NullPointerException e) {
-                    Intent intent = new Intent(getApplicationContext(), ActivityMostrarFoto.class);
+                    Intent intent = new Intent(getApplicationContext(), MostrarFoto.class);
                     intent.putExtra("codigo", "1");
                     startActivity(intent);
                 }
-            }*/
-      /*  });
+            }
+        });
 
         //BOTON COMPARTIR CONTACTO
         btnEnviar.setOnClickListener(new View.OnClickListener() {
@@ -218,15 +218,15 @@ public class ActivityListView extends AppCompatActivity {
             public void onClick(View view) {
                 enviarContacto();
             }
-        });*/
+        });
 
         //BOTON ACTUALIZAR
-/*
+
         btnmodificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SelectedRow == true) {
-                //    Intent i = new Intent(getApplicationContext(), ActivityActualizarContactos.class);
+                   Intent i = new Intent(getApplicationContext(), ActualizarUsuario.class);
                     i.putExtra("ID", Dato);
                     i.putExtra("Nombre", Nombre);
                     i.putExtra("Telefono", Telefono);
@@ -237,7 +237,7 @@ public class ActivityListView extends AppCompatActivity {
                     Toast.makeText(ActivityListView.this, "Seleccione un contacto", Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
+        });
 
    }
 
